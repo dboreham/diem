@@ -1,0 +1,65 @@
+[package]
+name = "diem-mempool"
+description = "Diem mempool for consuming incoming transactions"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-bounded-executor = { workspace = true }
+diem-channels = { workspace = true }
+diem-config = { workspace = true }
+diem-consensus-types = { workspace = true }
+diem-crypto = { workspace = true }
+diem-data-client = { workspace = true }
+diem-event-notifications = { workspace = true }
+diem-infallible = { workspace = true }
+diem-logger = { workspace = true }
+diem-mempool-notifications = { workspace = true }
+diem-metrics-core = { workspace = true }
+diem-netcore = { workspace = true }
+diem-network = { workspace = true }
+diem-proptest-helpers = { workspace = true, optional = true }
+diem-runtimes = { workspace = true }
+diem-short-hex-str = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-types = { workspace = true }
+diem-vm-validator = { workspace = true }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+fail = { workspace = true }
+futures = { workspace = true }
+itertools = { workspace = true }
+maplit = { workspace = true }
+once_cell = { workspace = true }
+proptest = { workspace = true, optional = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+
+[dev-dependencies]
+diem-compression = { workspace = true }
+diem-config = { workspace = true }
+diem-id-generator = { workspace = true }
+diem-network = { workspace = true, features = ["fuzzing"] }
+diem-storage-interface = { workspace = true, features = ["fuzzing"] }
+enum_dispatch = { workspace = true }
+proptest = { workspace = true }
+
+[features]
+default = []
+failpoints = ["fail/failpoints", "diem-vm-validator/failpoints"]
+fuzzing = ["proptest", "diem-types/fuzzing", "diem-storage-interface/fuzzing", "diem-config/fuzzing"]
+consensus-only-perf-test = []

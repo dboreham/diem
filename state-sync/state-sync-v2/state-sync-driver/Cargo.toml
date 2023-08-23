@@ -1,0 +1,64 @@
+[package]
+name = "diem-state-sync-driver"
+description = "The driver for state sync"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-config = { workspace = true }
+diem-consensus-notifications = { workspace = true }
+diem-crypto = { workspace = true }
+diem-data-client = { workspace = true }
+diem-data-streaming-service = { workspace = true }
+diem-event-notifications = { workspace = true }
+diem-executor-types = { workspace = true }
+diem-infallible = { workspace = true }
+diem-logger = { workspace = true }
+diem-mempool-notifications = { workspace = true }
+diem-metrics-core = { workspace = true }
+diem-runtimes = { workspace = true }
+diem-schemadb = { workspace = true }
+diem-scratchpad = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-time-service = { workspace = true }
+diem-types = { workspace = true }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+futures = { workspace = true }
+once_cell = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+diem-channels = { workspace = true }
+diem-crypto = { workspace = true }
+diem-db = { workspace = true }
+diem-executor = { workspace = true }
+diem-executor-test-helpers = { workspace = true }
+diem-genesis = { workspace = true, features = ["testing"] }
+diem-network = { workspace = true }
+diem-storage-service-client = { workspace = true }
+diem-storage-service-types = { workspace = true }
+diem-temppath = { workspace = true }
+diem-time-service = { workspace = true, features = ["async", "testing"] }
+diem-vm = { workspace = true }
+diem-vm-genesis = { workspace = true }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+claims = { workspace = true }
+mockall = { workspace = true }
+move-core-types = { workspace = true }
+ntest = { workspace = true }
+rand = { workspace = true }

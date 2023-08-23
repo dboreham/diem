@@ -1,0 +1,117 @@
+// Copyright © Diem Foundation
+// Parts of the project are originally copyright © Meta Platforms, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
+use crate::{
+    core_mempool::CoreMempool,
+    network::MempoolSyncMsg,
+    shared_mempool::{
+        coordinator::{coordinator, gc_coordinator, snapshot_job},
+        types::{MempoolEventsReceiver, SharedMempool, SharedMempoolNotification},
+    },
+    QuorumStoreRequest,
+};
+use diem_config::config::NodeConfig;
+use diem_event_notifications::ReconfigNotificationListener;
+use diem_infallible::{Mutex, RwLock};
+use diem_logger::Level;
+use diem_mempool_notifications::MempoolNotificationListener;
+use diem_network::application::{
+    interface::{NetworkClient, NetworkServiceEvents},
+    storage::PeersAndMetadata,
+};
+use diem_storage_interface::DbReader;
+use diem_vm_validator::vm_validator::{TransactionValidation, VMValidator};
+use futures::channel::mpsc::{Receiver, UnboundedSender};
+use std::sync::Arc;
+use tokio::runtime::{Handle, Runtime};
+
+/// Bootstrap of SharedMempool.
+/// Creates a separate Tokio Runtime that runs the following routines:
+///   - outbound_sync_task (task that periodically broadcasts transactions to peers).
+///   - inbound_network_task (task that handles inbound mempool messages and network events).
+///   - gc_task (task that performs GC of all expired transactions by SystemTTL).
+pub(crate) fn start_shared_mempool<TransactionValidator>(
+    executor: &Handle,
+    config: &NodeConfig,
+    mempool: Arc<Mutex<CoreMempool>>,
+    network_client: NetworkClient<MempoolSyncMsg>,
+    network_service_events: NetworkServiceEvents<MempoolSyncMsg>,
+    client_events: MempoolEventsReceiver,
+    quorum_store_requests: Receiver<QuorumStoreRequest>,
+    mempool_listener: MempoolNotificationListener,
+    mempool_reconfig_events: ReconfigNotificationListener,
+    db: Arc<dyn DbReader>,
+    validator: Arc<RwLock<TransactionValidator>>,
+    subscribers: Vec<UnboundedSender<SharedMempoolNotification>>,
+    peers_and_metadata: Arc<PeersAndMetadata>,
+) where
+    TransactionValidator: TransactionValidation + 'static,
+{
+    let smp: SharedMempool<NetworkClient<MempoolSyncMsg>, TransactionValidator> =
+        SharedMempool::new(
+            mempool.clone(),
+            config.mempool.clone(),
+            network_client,
+            db,
+            validator,
+            subscribers,
+            config.base.role,
+        );
+
+    executor.spawn(coordinator(
+        smp,
+        executor.clone(),
+        network_service_events,
+        client_events,
+        quorum_store_requests,
+        mempool_listener,
+        mempool_reconfig_events,
+        config.mempool.shared_mempool_peer_update_interval_ms,
+        peers_and_metadata,
+    ));
+
+    executor.spawn(gc_coordinator(
+        mempool.clone(),
+        config.mempool.system_transaction_gc_interval_ms,
+    ));
+
+    if diem_logger::enabled!(Level::Trace) {
+        executor.spawn(snapshot_job(
+            mempool,
+            config.mempool.mempool_snapshot_interval_secs,
+        ));
+    }
+}
+
+pub fn bootstrap(
+    config: &NodeConfig,
+    db: Arc<dyn DbReader>,
+    network_client: NetworkClient<MempoolSyncMsg>,
+    network_service_events: NetworkServiceEvents<MempoolSyncMsg>,
+    client_events: MempoolEventsReceiver,
+    quorum_store_requests: Receiver<QuorumStoreRequest>,
+    mempool_listener: MempoolNotificationListener,
+    mempool_reconfig_events: ReconfigNotificationListener,
+    peers_and_metadata: Arc<PeersAndMetadata>,
+) -> Runtime {
+    let runtime = diem_runtimes::spawn_named_runtime("shared-mem".into(), None);
+    let mempool = Arc::new(Mutex::new(CoreMempool::new(config)));
+    let vm_validator = Arc::new(RwLock::new(VMValidator::new(Arc::clone(&db))));
+    start_shared_mempool(
+        runtime.handle(),
+        config,
+        mempool,
+        network_client,
+        network_service_events,
+        client_events,
+        quorum_store_requests,
+        mempool_listener,
+        mempool_reconfig_events,
+        db,
+        vm_validator,
+        vec![],
+        peers_and_metadata,
+    );
+    runtime
+}

@@ -1,0 +1,35 @@
+[package]
+name = "diem-vault-client"
+description = "Diem's Restful Vault Client"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+diem-crypto = { workspace = true }
+diem-proptest-helpers = { workspace = true, optional = true }
+diem-types = { workspace = true, optional = true }
+base64 = { workspace = true }
+chrono = { workspace = true }
+native-tls = { workspace = true }
+once_cell = { workspace = true }
+proptest = { workspace = true, optional = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+ureq = { workspace = true }
+
+[dev-dependencies]
+diem-proptest-helpers = { workspace = true }
+diem-types = { workspace = true, features = ["fuzzing"] }
+proptest = { workspace = true }
+
+[features]
+fuzzing = ["proptest", "diem-proptest-helpers", "diem-types", "diem-types/fuzzing"]

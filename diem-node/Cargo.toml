@@ -1,0 +1,87 @@
+[package]
+name = "diem-node"
+description = "Diem node"
+version = "1.6.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-api = { workspace = true }
+diem-backup-service = { workspace = true }
+diem-build-info = { workspace = true }
+diem-cached-packages = { workspace = true }
+diem-channels = { workspace = true }
+diem-config = { workspace = true }
+diem-consensus = { workspace = true }
+diem-consensus-notifications = { workspace = true }
+diem-crash-handler = { workspace = true }
+diem-crypto = { workspace = true }
+diem-data-client = { workspace = true }
+diem-data-streaming-service = { workspace = true }
+diem-db = { workspace = true }
+diem-event-notifications = { workspace = true }
+diem-executor = { workspace = true }
+diem-executor-types = { workspace = true }
+diem-framework = { workspace = true }
+diem-genesis = { workspace = true }
+diem-indexer = { workspace = true, optional = true }
+diem-indexer-grpc-fullnode = { workspace = true }
+diem-infallible = { workspace = true }
+diem-inspection-service = { workspace = true }
+diem-logger = { workspace = true }
+diem-mempool = { workspace = true }
+diem-mempool-notifications = { workspace = true }
+diem-network = { workspace = true }
+diem-network-builder = { workspace = true }
+diem-node-identity = { workspace = true }
+diem-peer-monitoring-service-client = { workspace = true }
+diem-peer-monitoring-service-server = { workspace = true }
+diem-peer-monitoring-service-types = { workspace = true }
+diem-runtimes = { workspace = true }
+diem-secure-storage = { workspace = true }
+diem-state-sync-driver = { workspace = true }
+diem-state-view = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-storage-service-client = { workspace = true }
+diem-storage-service-server = { workspace = true }
+diem-storage-service-types = { workspace = true }
+diem-telemetry = { workspace = true }
+diem-temppath = { workspace = true }
+diem-time-service = { workspace = true }
+diem-types = { workspace = true }
+diem-vm = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+fail = { workspace = true }
+futures = { workspace = true }
+hex = { workspace = true }
+maplit = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+url = { workspace = true }
+
+[target.'cfg(unix)'.dependencies]
+jemallocator = { workspace = true }
+
+[features]
+assert-private-keys-not-cloneable = ["diem-crypto/assert-private-keys-not-cloneable"]
+check-vm-features = []
+consensus-only-perf-test = ["diem-executor/consensus-only-perf-test", "diem-mempool/consensus-only-perf-test", "diem-db/consensus-only-perf-test"]
+default = []
+failpoints = ["fail/failpoints", "diem-consensus/failpoints", "diem-executor/failpoints", "diem-mempool/failpoints", "diem-api/failpoints"]
+indexer = ["diem-indexer"]
+network-perf-test = ["diem-peer-monitoring-service-client/network-perf-test", "diem-peer-monitoring-service-server/network-perf-test", "diem-peer-monitoring-service-types/network-perf-test"]
+tokio-console = ["diem-logger/tokio-console"]

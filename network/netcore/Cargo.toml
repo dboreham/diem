@@ -1,0 +1,34 @@
+[package]
+name = "diem-netcore"
+description = "Diem netcore"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+diem-memsocket = { workspace = true }
+diem-proxy = { workspace = true }
+diem-types = { workspace = true }
+bytes = { workspace = true }
+futures = { workspace = true }
+pin-project = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+tokio-util = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+diem-memsocket = { workspace = true }
+diem-types = { workspace = true, features = ["fuzzing"] }
+
+[features]
+default = []
+fuzzing = ["diem-memsocket/fuzzing", "diem-types/fuzzing"]
+testing = ["diem-memsocket/testing"]

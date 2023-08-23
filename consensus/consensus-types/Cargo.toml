@@ -1,0 +1,41 @@
+[package]
+name = "diem-consensus-types"
+description = "Diem consensus types"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-bitvec = { workspace = true }
+diem-crypto = { workspace = true }
+diem-crypto-derive = { workspace = true }
+diem-executor-types = { workspace = true }
+diem-infallible = { workspace = true }
+diem-short-hex-str = { workspace = true }
+diem-types = { workspace = true }
+bcs = { workspace = true }
+futures = { workspace = true }
+itertools = { workspace = true }
+mirai-annotations = { workspace = true }
+proptest = { workspace = true, optional = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+
+[dev-dependencies]
+diem-types = { workspace = true, features = ["fuzzing"] }
+proptest = { workspace = true }
+serde_json = { workspace = true }
+
+[features]
+default = []
+fuzzing = ["proptest", "diem-types/fuzzing", "diem-crypto/fuzzing"]

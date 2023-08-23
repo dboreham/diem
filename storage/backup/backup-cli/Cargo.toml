@@ -1,0 +1,69 @@
+[package]
+name = "diem-backup-cli"
+description = "Backup CLI"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-backup-service = { workspace = true }
+diem-config = { workspace = true }
+diem-crypto = { workspace = true }
+diem-db = { workspace = true }
+diem-executor = { workspace = true }
+diem-executor-test-helpers = { workspace = true }
+diem-executor-types = { workspace = true }
+diem-infallible = { workspace = true }
+diem-jellyfish-merkle = { workspace = true }
+diem-logger = { workspace = true }
+diem-proptest-helpers = { workspace = true }
+diem-push-metrics = { workspace = true }
+diem-scratchpad = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-temppath = { workspace = true }
+diem-types = { workspace = true }
+diem-vm = { workspace = true }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+bytes = { workspace = true }
+clap = { workspace = true }
+csv = { workspace = true }
+futures = { workspace = true }
+itertools = { workspace = true }
+move-binary-format = { workspace = true }
+move-bytecode-verifier = { workspace = true }
+num_cpus = { workspace = true }
+once_cell = { workspace = true }
+pin-project = { workspace = true }
+rand = { workspace = true }
+regex = { workspace = true }
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+tokio = { workspace = true }
+tokio-io-timeout = { workspace = true }
+tokio-stream = { workspace = true }
+tokio-util = { workspace = true }
+
+[dev-dependencies]
+diem-backup-service = { workspace = true }
+diem-config = { workspace = true }
+diem-db = { workspace = true }
+diem-executor-test-helpers = { workspace = true }
+diem-proptest-helpers = { workspace = true }
+diem-storage-interface = { workspace = true }
+proptest = { workspace = true }
+warp = { workspace = true }
+
+[features]
+testing = []
+fuzzing = ["diem-db/fuzzing"]

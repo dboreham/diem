@@ -1,0 +1,40 @@
+[package]
+name = "diem-network-discovery"
+description = "Diem Network Peer Discovery"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-channels = { workspace = true }
+diem-config = { workspace = true }
+diem-crypto = { workspace = true }
+diem-event-notifications = { workspace = true }
+diem-logger = { workspace = true }
+diem-metrics-core = { workspace = true }
+diem-network = { workspace = true }
+diem-rest-client = { workspace = true }
+diem-secure-storage = { workspace = true }
+diem-short-hex-str = { workspace = true }
+diem-time-service = { workspace = true }
+diem-types = { workspace = true }
+bcs = { workspace = true }
+futures = { workspace = true }
+once_cell = { workspace = true }
+serde_yaml = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+diem-config = { workspace = true, features = ["testing"] }
+diem-netcore = { workspace = true, features = ["fuzzing"] }
+diem-temppath = { workspace = true }
+rand = { workspace = true }

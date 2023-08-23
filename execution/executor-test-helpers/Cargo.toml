@@ -1,0 +1,32 @@
+[package]
+name = "diem-executor-test-helpers"
+description = "Diem executor test helpers"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-cached-packages = { workspace = true }
+diem-config = { workspace = true }
+diem-consensus-types = { workspace = true }
+diem-crypto = { workspace = true }
+diem-db = { workspace = true, features = ["fuzzing"] }
+diem-executor = { workspace = true }
+diem-executor-types = { workspace = true }
+diem-genesis = { workspace = true }
+diem-sdk = { workspace = true }
+diem-state-view = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-temppath = { workspace = true }
+diem-types = { workspace = true }
+diem-vm = { workspace = true }
+diem-vm-genesis = { workspace = true }
+rand = { workspace = true }

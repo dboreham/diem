@@ -1,0 +1,46 @@
+[package]
+name = "diem-jellyfish-merkle"
+description = "Diem jellyfish merkle"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-crypto = { workspace = true }
+diem-crypto-derive = { workspace = true }
+diem-infallible = { workspace = true }
+diem-logger = { workspace = true }
+diem-metrics-core = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-types = { workspace = true }
+bcs = { workspace = true }
+byteorder = { workspace = true }
+itertools = { workspace = true }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+once_cell = { workspace = true }
+proptest = { workspace = true, optional = true }
+proptest-derive = { workspace = true, optional = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+diem-crypto = { workspace = true }
+diem-db = { workspace = true }
+diem-types = { workspace = true, features = ["fuzzing"] }
+proptest = { workspace = true }
+proptest-derive = { workspace = true }
+rand = { workspace = true }
+
+[features]
+default = []
+fuzzing = ["proptest", "proptest-derive", "diem-crypto/fuzzing", "diem-types/fuzzing"]

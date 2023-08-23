@@ -1,0 +1,30 @@
+[package]
+name = "diem-schemadb"
+description = "Diem schemadb"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-infallible = { workspace = true }
+diem-logger = { workspace = true }
+diem-metrics-core = { workspace = true }
+once_cell = { workspace = true }
+proptest = { workspace = true, optional = true }
+rocksdb = { workspace = true }
+
+[dev-dependencies]
+diem-temppath = { workspace = true }
+byteorder = { workspace = true }
+proptest = { workspace = true }
+
+[features]
+fuzzing = ["proptest"]

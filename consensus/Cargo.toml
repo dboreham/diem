@@ -1,0 +1,90 @@
+[package]
+name = "diem-consensus"
+description = "Diem consensus"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-bitvec = { workspace = true }
+diem-bounded-executor = { workspace = true }
+diem-channels = { workspace = true }
+diem-config = { workspace = true }
+diem-consensus-notifications = { workspace = true }
+diem-consensus-types = { workspace = true }
+diem-crypto = { workspace = true }
+diem-crypto-derive = { workspace = true }
+diem-enum-conversion-derive = { workspace = true }
+diem-event-notifications = { workspace = true }
+diem-executor = { workspace = true }
+diem-executor-types = { workspace = true }
+diem-fallible = { workspace = true }
+diem-global-constants = { workspace = true }
+diem-infallible = { workspace = true }
+diem-logger = { workspace = true }
+diem-mempool = { workspace = true }
+diem-metrics-core = { workspace = true }
+diem-network = { workspace = true }
+diem-runtimes = { workspace = true }
+diem-safety-rules = { workspace = true }
+diem-schemadb = { workspace = true }
+diem-secure-storage = { workspace = true }
+diem-short-hex-str = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-temppath = { workspace = true }
+diem-types = { workspace = true }
+diem-vm = { workspace = true }
+arc-swap = { workspace = true }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+byteorder = { workspace = true }
+bytes = { workspace = true }
+chrono = { workspace = true }
+claims = { workspace = true }
+dashmap = { workspace = true }
+fail = { workspace = true }
+futures = { workspace = true }
+futures-channel = { workspace = true }
+itertools = { workspace = true }
+maplit = { workspace = true }
+mirai-annotations = { workspace = true }
+move-core-types = { workspace = true }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+once_cell = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_bytes = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+tokio-metrics = { workspace = true }
+
+[dev-dependencies]
+diem-cached-packages = { workspace = true }
+diem-config = { workspace = true, features = ["fuzzing"] }
+diem-consensus-types = { workspace = true, features = ["fuzzing"] }
+diem-executor-test-helpers = { workspace = true }
+diem-keygen = { workspace = true }
+diem-mempool = { workspace = true, features = ["fuzzing"] }
+diem-network = { workspace = true, features = ["fuzzing"] }
+diem-safety-rules = { workspace = true, features = ["testing"] }
+diem-vm-validator = { workspace = true }
+claims = { workspace = true }
+move-core-types = { workspace = true }
+proptest = { workspace = true }
+tempfile = { workspace = true }
+
+[features]
+default = []
+fuzzing = ["diem-consensus-types/fuzzing", "diem-config/fuzzing", "diem-crypto/fuzzing", "diem-mempool/fuzzing", "diem-types/fuzzing", "diem-safety-rules/testing"]
+failpoints = ["fail/failpoints"]

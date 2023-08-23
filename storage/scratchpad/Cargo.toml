@@ -1,0 +1,50 @@
+[package]
+name = "diem-scratchpad"
+description = "Diem scratchpad"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+diem-crypto = { workspace = true }
+diem-infallible = { workspace = true }
+diem-metrics-core = { workspace = true }
+diem-types = { workspace = true }
+bitvec = { workspace = true }
+criterion = { workspace = true, optional = true }
+itertools = { workspace = true }
+once_cell = { workspace = true }
+proptest = { workspace = true, optional = true }
+rayon = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+diem-types = { workspace = true, features = ["fuzzing"] }
+bitvec = { workspace = true }
+once_cell = { workspace = true }
+proptest = { workspace = true }
+rand = { workspace = true }
+
+[target.'cfg(unix)'.dev-dependencies]
+jemallocator = { workspace = true }
+
+[features]
+fuzzing = ["diem-types/fuzzing", "proptest"]
+bench = ["proptest", "criterion"]
+
+[[bench]]
+name = "sparse_merkle"
+harness = false
+required-features = ["bench"]
+
+[lib]
+# Allow Criterion benchmarks to take command line arguments
+# https://bheisler.github.io/criterion.rs/book/faq.html#cargo-bench-gives-unrecognized-option-errors-for-valid-command-line-options
+bench = false

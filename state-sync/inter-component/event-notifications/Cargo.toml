@@ -1,0 +1,37 @@
+[package]
+name = "diem-event-notifications"
+description = "The notification service offered by state sync for on-chain events"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+diem-channels = { workspace = true }
+diem-id-generator = { workspace = true }
+diem-infallible = { workspace = true }
+diem-state-view = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-types = { workspace = true }
+async-trait = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+diem-crypto = { workspace = true }
+diem-db = { workspace = true }
+diem-executor-test-helpers = { workspace = true }
+diem-temppath = { workspace = true }
+diem-vm = { workspace = true }
+diem-vm-genesis = { workspace = true }
+bcs = { workspace = true }
+claims = { workspace = true }
+move-binary-format = { workspace = true }
+move-core-types = { workspace = true }

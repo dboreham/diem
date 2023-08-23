@@ -1,0 +1,48 @@
+[package]
+name = "diem-data-client"
+description = "The Diem data client"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+diem-config = { workspace = true }
+diem-crypto = { workspace = true }
+diem-id-generator = { workspace = true }
+diem-infallible = { workspace = true }
+diem-logger = { workspace = true }
+diem-metrics-core = { workspace = true }
+diem-netcore = { workspace = true }
+diem-network = { workspace = true }
+diem-storage-interface = { workspace = true }
+diem-storage-service-client = { workspace = true }
+diem-storage-service-types = { workspace = true }
+diem-time-service = { workspace = true }
+diem-types = { workspace = true }
+async-trait = { workspace = true }
+futures = { workspace = true }
+itertools = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+diem-channels = { workspace = true }
+diem-network = { workspace = true, features = ["fuzzing"] }
+diem-storage-service-server = { workspace = true }
+diem-time-service = { workspace = true, features = ["async", "testing"] }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+claims = { workspace = true }
+maplit = { workspace = true }
+mockall = { workspace = true }
+tokio = { workspace = true }

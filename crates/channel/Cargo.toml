@@ -1,0 +1,24 @@
+[package]
+name = "diem-channels"
+description = "An implementation of a channel with configurable QoS"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+diem-infallible = { workspace = true }
+diem-logger = { workspace = true }
+diem-metrics-core = { workspace = true }
+futures = { workspace = true }
+
+[dev-dependencies]
+diem-types = { workspace = true }
+tokio = { workspace = true }

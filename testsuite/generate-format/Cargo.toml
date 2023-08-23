@@ -1,0 +1,35 @@
+[package]
+name = "generate-format"
+description = "Diem core type checker to ensure compatibility"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+diem-api-types = { workspace = true }
+diem-config = { workspace = true }
+diem-consensus = { workspace = true, features = ["fuzzing"] }
+diem-consensus-types = { workspace = true }
+diem-crypto = { workspace = true }
+diem-crypto-derive = { workspace = true }
+diem-network = { workspace = true }
+diem-types = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+move-core-types = { workspace = true, features = ["fuzzing"] }
+rand = { workspace = true }
+serde = { workspace = true }
+serde-reflection = { workspace = true }
+serde_yaml = { workspace = true }
+
+[[bin]]
+name = "compute"
+path = "src/compute.rs"
+test = false
