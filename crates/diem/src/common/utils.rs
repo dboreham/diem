@@ -489,7 +489,6 @@ pub fn parse_json_file<T: for<'a> Deserialize<'a>>(path_ref: &Path) -> CliTypedR
         CliError::UnableToReadFile(format!("{}", path_ref.display()), err.to_string())
     })
 }
-
 /// Convert a view function JSON field into a string option.
 ///
 /// A view function JSON return represents an option via an inner JSON array titled `vec`.
