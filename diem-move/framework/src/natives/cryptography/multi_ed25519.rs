@@ -1,7 +1,7 @@
 // Copyright © Diem Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use crate::natives::helpers::make_test_only_native_from_func;
 use crate::{
     natives::{
@@ -10,9 +10,9 @@ use crate::{
     },
     safely_assert_eq, safely_pop_arg,
 };
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use diem_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use diem_crypto::test_utils::KeyPair;
 use diem_crypto::{
     ed25519,
@@ -22,18 +22,18 @@ use diem_crypto::{
 };
 use diem_types::on_chain_config::{Features, TimedFeatures};
 use curve25519_dalek::edwards::CompressedEdwardsY;
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_binary_format::errors::PartialVMResult;
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_core_types::gas_algebra::InternalGas;
 use move_core_types::gas_algebra::{InternalGasPerArg, NumArgs, NumBytes};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_vm_runtime::native_functions::NativeContext;
 use move_vm_runtime::native_functions::NativeFunction;
 use move_vm_types::{loaded_data::runtime_types::Type, values::Value};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_vm_types::{natives::function::NativeResult, pop_arg};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use rand_core::OsRng;
 use smallvec::{smallvec, SmallVec};
 use std::{collections::VecDeque, convert::TryFrom, sync::Arc};
@@ -175,7 +175,7 @@ fn native_signature_verify_strict(
     Ok(smallvec![Value::bool(verify_result)])
 }
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 fn native_generate_keys(
     _context: &mut NativeContext,
     _ty_args: Vec<Type>,
@@ -202,7 +202,7 @@ fn native_generate_keys(
     ]))
 }
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 fn native_sign(
     _context: &mut NativeContext,
     _ty_args: Vec<Type>,
@@ -257,7 +257,7 @@ pub fn make_all(
             ),
         ),
     ]);
-    #[cfg(feature = "testing")]
+    // #[cfg(feature = "testing")]
     natives.append(&mut vec![
         (
             "generate_keys_internal",
