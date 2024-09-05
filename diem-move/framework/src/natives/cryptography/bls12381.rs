@@ -1,14 +1,38 @@
 // Copyright © Diem Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-#[cfg(feature = "testing")]
+//////// 0L ////////
+// Yes, we'd like to explicitly expose testing natives
+// to production binaries.
+// Testing-only compilation for test suites makes
+// dependency management and test workflows very
+// complicated for downstream libraries.
+// We understand the belt-and-suspenders approach here
+// but it appears to not have considered downstream cases.
+//
+// Downstream should gate these functions behind Move #[test-only]
+// pragmas.
+// We will also make the terminal scream when any test-only-natives
+// are being called.
+//
+// Practically we need Move tests to be able to access
+// generate_keys_internal when the cli tools are built
+// without "testing" (or any) feature flags.
+// This function breaks a lot of framework development tests
+// And we get in a situation that "forge" and "smoke tests"
+// need separate binaries from Move functional tests.
+//
+// Plus, the lord says test binaries are an anti-pattern.
+////////
+
+// #[cfg(feature = "testing")]
 use crate::natives::helpers::make_test_only_native_from_func;
 use crate::{
     natives::helpers::{make_safe_native, SafeNativeContext, SafeNativeResult},
     safely_pop_arg, safely_pop_vec_arg,
 };
 use diem_crypto::{bls12381, traits};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use diem_crypto::{
     bls12381::{PrivateKey, ProofOfPossession, PublicKey},
     test_utils::KeyPair,
@@ -20,22 +44,23 @@ use move_core_types::{
     gas_algebra::{InternalGas, InternalGasPerArg, InternalGasPerByte, NumArgs, NumBytes},
     vm_status::StatusCode,
 };
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_vm_runtime::native_functions::NativeContext;
 use move_vm_runtime::native_functions::NativeFunction;
 use move_vm_types::{
     loaded_data::runtime_types::Type,
     values::{Struct, Value},
 };
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_vm_types::{
     natives::function::{NativeResult, PartialVMResult},
     pop_arg,
 };
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use rand_core::OsRng;
 use smallvec::{smallvec, SmallVec};
 use std::{collections::VecDeque, convert::TryFrom, sync::Arc};
+use log::warn;
 
 /// Pops a `Vec<T>` off the argument stack and converts it to a `Vec<Vec<u8>>` by reading the first
 /// field of `T`, which is a `Vec<u8>` field named `bytes`.
@@ -636,12 +661,13 @@ pub fn native_bls12381_verify_signature_share(
     gas_params.bls12381_verify_signature_helper(context, _ty_args, arguments, check_pk_subgroup)
 }
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 pub fn native_generate_keys(
     _context: &mut NativeContext,
     _ty_args: Vec<Type>,
     mut _arguments: VecDeque<Value>,
 ) -> PartialVMResult<NativeResult> {
+    warn!("bls12381::native_generate_keys called. Should never be called in production");
     let key_pair = KeyPair::<PrivateKey, PublicKey>::generate(&mut OsRng);
     Ok(NativeResult::ok(InternalGas::zero(), smallvec![
         Value::vector_u8(key_pair.private_key.to_bytes()),
@@ -649,12 +675,13 @@ pub fn native_generate_keys(
     ]))
 }
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 pub fn native_sign(
     _context: &mut NativeContext,
     _ty_args: Vec<Type>,
     mut arguments: VecDeque<Value>,
 ) -> PartialVMResult<NativeResult> {
+    warn!("bls12381::native_sign called. Should never be called in production");
     let msg = pop_arg!(arguments, Vec<u8>);
     let sk_bytes = pop_arg!(arguments, Vec<u8>);
     let sk = PrivateKey::try_from(sk_bytes.as_slice()).unwrap();
@@ -664,12 +691,13 @@ pub fn native_sign(
     ]))
 }
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 pub fn native_generate_proof_of_possession(
     _context: &mut NativeContext,
     _ty_args: Vec<Type>,
     mut arguments: VecDeque<Value>,
 ) -> PartialVMResult<NativeResult> {
+    warn!("bls12381::native_generate_proof_of_possession called. Should never be called in production");
     let sk_bytes = pop_arg!(arguments, Vec<u8>);
     let sk = PrivateKey::try_from(sk_bytes.as_slice()).unwrap();
     let pop = ProofOfPossession::create(&sk);
@@ -772,7 +800,7 @@ pub fn make_all(
             ),
         ),
     ]);
-    #[cfg(feature = "testing")]
+    // #[cfg(feature = "testing")]
     natives.append(&mut vec![
         (
             "generate_keys_internal",

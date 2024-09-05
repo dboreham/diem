@@ -1,34 +1,39 @@
 // Copyright © Diem Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-#[cfg(feature = "testing")]
+//////// 0L ////////
+// See note in bls12381
+////////
+
+//#[cfg(feature = "testing")]
 use crate::natives::helpers::make_test_only_native_from_func;
 use crate::{
     natives::helpers::{make_safe_native, SafeNativeContext, SafeNativeError, SafeNativeResult},
     safely_pop_arg,
 };
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use diem_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use diem_crypto::test_utils::KeyPair;
 use diem_crypto::{ed25519, ed25519::ED25519_PUBLIC_KEY_LENGTH, traits::*};
 use diem_types::on_chain_config::{FeatureFlag, Features, TimedFeatures};
 use curve25519_dalek::edwards::CompressedEdwardsY;
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_binary_format::errors::PartialVMResult;
 use move_core_types::gas_algebra::{
     InternalGas, InternalGasPerArg, InternalGasPerByte, NumArgs, NumBytes,
 };
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_vm_runtime::native_functions::NativeContext;
 use move_vm_runtime::native_functions::NativeFunction;
 use move_vm_types::{loaded_data::runtime_types::Type, values::Value};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use move_vm_types::{natives::function::NativeResult, pop_arg};
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 use rand_core::OsRng;
 use smallvec::{smallvec, SmallVec};
 use std::{collections::VecDeque, convert::TryFrom, sync::Arc};
+use log::warn;
 
 pub mod abort_codes {
     pub const E_WRONG_PUBKEY_SIZE: u64 = 1;
@@ -189,7 +194,7 @@ pub fn make_all(
     ]);
 
     // Test-only natives.
-    #[cfg(feature = "testing")]
+    // #[cfg(feature = "testing")]
     natives.append(&mut vec![
         (
             "generate_keys_internal",
@@ -204,12 +209,13 @@ pub fn make_all(
     crate::natives::helpers::make_module_natives(natives)
 }
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 fn native_test_only_generate_keys_internal(
     _context: &mut NativeContext,
     _ty_args: Vec<Type>,
     mut _args: VecDeque<Value>,
 ) -> PartialVMResult<NativeResult> {
+    warn!("ed25519::native_test_only_generate_keys_internal called. Should never be called in production");
     let key_pair = KeyPair::<Ed25519PrivateKey, Ed25519PublicKey>::generate(&mut OsRng);
     Ok(NativeResult::ok(InternalGas::zero(), smallvec![
         Value::vector_u8(key_pair.private_key.to_bytes()),
@@ -217,12 +223,13 @@ fn native_test_only_generate_keys_internal(
     ]))
 }
 
-#[cfg(feature = "testing")]
+// #[cfg(feature = "testing")]
 fn native_test_only_sign_internal(
     _context: &mut NativeContext,
     _ty_args: Vec<Type>,
     mut args: VecDeque<Value>,
 ) -> PartialVMResult<NativeResult> {
+      warn!("ed25519::native_test_only_sign_internal called. Should never be called in production");
     let msg_bytes = pop_arg!(args, Vec<u8>);
     let sk_bytes = pop_arg!(args, Vec<u8>);
     let sk = Ed25519PrivateKey::try_from(sk_bytes.as_slice()).unwrap();
