@@ -3359,6 +3359,7 @@ dependencies = [
  "diem-gas",
  "diem-gas-algebra-ext",
  "diem-language-e2e-tests",
+ "diem-logger",
  "diem-move-stdlib",
  "diem-sdk-builder",
  "diem-state-view",
