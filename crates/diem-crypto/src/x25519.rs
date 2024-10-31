@@ -108,7 +108,7 @@ impl PrivateKey {
     pub fn from_ed25519_private_bytes(private_slice: &[u8]) -> Result<Self, CryptoMaterialError> {
         let ed25519_secretkey = ed25519_dalek::SecretKey::from_bytes(private_slice)
             .map_err(|_| CryptoMaterialError::DeserializationError)?;
-        let expanded_key = ed25519_dalek::ExpandedSecretKey::from(&ed25519_secretkey);
+        let expanded_key = ed25519_dalek::hazmat::ExpandedSecretKey::from(&ed25519_secretkey);
 
         let mut expanded_keypart = [0u8; 32];
         expanded_keypart.copy_from_slice(&expanded_key.to_bytes()[..32]);

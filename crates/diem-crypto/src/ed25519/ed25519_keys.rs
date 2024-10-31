@@ -34,7 +34,7 @@ impl Clone for Ed25519PrivateKey {
 
 /// An Ed25519 public key
 #[derive(DeserializeKey, Clone, SerializeKey)]
-pub struct Ed25519PublicKey(pub(crate) ed25519_dalek::PublicKey);
+pub struct Ed25519PublicKey(pub(crate) ed25519_dalek::VerifyingKey);
 
 impl Ed25519PrivateKey {
     /// The length of the Ed25519PrivateKey
@@ -60,8 +60,8 @@ impl Ed25519PrivateKey {
     fn sign_arbitrary_message(&self, message: &[u8]) -> Ed25519Signature {
         let secret_key: &ed25519_dalek::SecretKey = &self.0;
         let public_key: Ed25519PublicKey = self.into();
-        let expanded_secret_key: ed25519_dalek::ExpandedSecretKey =
-            ed25519_dalek::ExpandedSecretKey::from(secret_key);
+        let expanded_secret_key: ed25519_dalek::hazmat::ExpandedSecretKey =
+            ed25519_dalek::hazmat::ExpandedSecretKey::from(secret_key);
         let sig = expanded_secret_key.sign(message.as_ref(), &public_key.0);
         Ed25519Signature(sig)
     }
@@ -80,7 +80,7 @@ impl Ed25519PublicKey {
     pub(crate) fn from_bytes_unchecked(
         bytes: &[u8],
     ) -> std::result::Result<Ed25519PublicKey, CryptoMaterialError> {
-        match ed25519_dalek::PublicKey::from_bytes(bytes) {
+        match ed25519_dalek::VerifyingKey::from_bytes(bytes) {
             Ok(dalek_public_key) => Ok(Ed25519PublicKey(dalek_public_key)),
             Err(_) => Err(CryptoMaterialError::DeserializationError),
         }
@@ -215,7 +215,7 @@ impl Genesis for Ed25519PrivateKey {
 impl From<&Ed25519PrivateKey> for Ed25519PublicKey {
     fn from(private_key: &Ed25519PrivateKey) -> Self {
         let secret: &ed25519_dalek::SecretKey = &private_key.0;
-        let public: ed25519_dalek::PublicKey = secret.into();
+        let public: ed25519_dalek::VerifyingKey = secret.into();
         Ed25519PublicKey(public)
     }
 }
