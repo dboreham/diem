@@ -1,4 +1,4 @@
-name: Code Checks
+name: Check code passes linting
 
 on:
   push:
