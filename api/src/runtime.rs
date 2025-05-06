@@ -164,16 +164,8 @@ pub fn attach_poem_to_runtime(
         .as_socket_addr()
         .context("Failed to get socket addr from local addr for Poem webserver")?;
     runtime_handle.spawn(async move {
-        let cors = Cors::new()
-            // To allow browsers to use cookies (for cookie-based sticky
-            // routing in the LB) we must enable this:
-            // https://stackoverflow.com/a/24689738/3846032
-            .allow_credentials(true)
-            .allow_methods(vec![Method::GET, Method::POST])
-            .allow_headers(vec![
-                header::CONTENT_TYPE,
-                header::ACCEPT,
-            ]);
+        // Default CORS regime which allows any origin and any headers
+        let cors = Cors::new();
 
         // Build routes for the API
         let route = Route::new()
